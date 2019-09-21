@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Post;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,6 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+    protected $appends = ['avatar'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -36,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAvatarAttribute()
+    {
+         return 'https://www.gravatar.com/avatar/'. md5($this->email) . '?d=mm&s=50';
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
 }

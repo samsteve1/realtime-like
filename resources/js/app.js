@@ -20,7 +20,14 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import Timeline from './components/Timeline.vue';
+import Post from './components/Post.vue';
+import PostForm from './components/PostForm.vue';
+
+Vue.component('post', Post);
+Vue.component('timeline', Timeline);
+Vue.component('post-form', PostForm);
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
