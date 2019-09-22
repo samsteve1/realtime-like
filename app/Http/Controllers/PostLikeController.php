@@ -26,7 +26,7 @@ class PostLikeController extends Controller
 
         $like->save();
 
-        broadcast(new PostWasLiked($post))->toOthers();
+        broadcast(new PostWasLiked($post, $request->user()))->toOthers();
 
         return response(null, 200);
     }

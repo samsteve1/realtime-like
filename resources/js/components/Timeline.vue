@@ -40,8 +40,20 @@ import eventBus from '../event';
                 })
 
                 Echo.private('likes').listen('PostWasLiked', (e) => {
-                   eventBus.$emit('post-liked', this.post.id, false);
+                   eventBus.$emit('post-liked', e.post.id, false);
                 })
+
+                if (window.Notification && Notification.permission !== 'denied') {
+                    Notification.requestPermission((status) => {
+                         Echo.private('App.User.' + this.$root.user_id).listen('PostWasLiked', (e) => {
+                             new Notification('Post liked', {
+                                 body:  e.user.name + ' liked your post "' + e.post.body + '"'
+                             })
+                        })
+                    })
+                }
+
+
 
 
                 this.posts = response.data

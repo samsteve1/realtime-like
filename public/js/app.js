@@ -1867,8 +1867,19 @@ __webpack_require__.r(__webpack_exports__);
         _event__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('post-submitted', e.post);
       });
       Echo["private"]('likes').listen('PostWasLiked', function (e) {
-        _event__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('post-liked', _this.post.id, false);
+        _event__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('post-liked', e.post.id, false);
       });
+
+      if (window.Notification && Notification.permission !== 'denied') {
+        Notification.requestPermission(function (status) {
+          Echo["private"]('App.User.' + _this.$root.user_id).listen('PostWasLiked', function (e) {
+            new Notification('Post liked', {
+              body: e.user.name + ' liked your post "' + e.post.body + '"'
+            });
+          });
+        });
+      }
+
       _this.posts = response.data;
     });
   },
