@@ -21,5 +21,8 @@ class BroadcastServiceProvider extends ServiceProvider
         Broadcast::channel('posts', function($user) {
             return true;
         });
+        Broadcast::channel('likes', function($user) {
+            return true;
+        });
     }
 }

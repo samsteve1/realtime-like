@@ -13,8 +13,11 @@ export default {
     methods: {
         like() {
             axios.post('/posts/' + this.post.id + '/likes').then((response) => {
-                eventBus.$emit('post-liked', this.post.id);
-            });
+                eventBus.$emit('post-liked', this.post.id, true);
+            }).catch((error) => {
+                console.log(error)
+                alert('Unable to complete request, retry.');
+            })
         }
     },
 

@@ -1712,7 +1712,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/posts/' + this.post.id + '/likes').then(function (response) {
-        _event__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('post-liked', _this.post.id);
+        _event__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('post-liked', _this.post.id, true);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('Unable to complete request, retry.');
       });
     }
   }
@@ -1806,6 +1809,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.post = '';
         _event__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('post-submitted', response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        alert('unable to complete request, retry');
       });
     }
   }
@@ -1854,12 +1860,14 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    alert(window.user_id);
     _event__WEBPACK_IMPORTED_MODULE_2__["default"].$on('post-submitted', this.addPost);
     _event__WEBPACK_IMPORTED_MODULE_2__["default"].$on('post-liked', this.postLiked);
     axios.get('/posts').then(function (response) {
       Echo["private"]('posts').listen('PostWasCreated', function (e) {
         _event__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('post-submitted', e.post);
+      });
+      Echo["private"]('likes').listen('PostWasLiked', function (e) {
+        _event__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('post-liked', _this.post.id, false);
       });
       _this.posts = response.data;
     });
@@ -1871,11 +1879,15 @@ __webpack_require__.r(__webpack_exports__);
     addPost: function addPost(post) {
       this.posts.unshift(post);
     },
-    postLiked: function postLiked(postId) {
+    postLiked: function postLiked(postId, likedByCurrentUser) {
       for (var i = 0; i < this.posts.length; i++) {
         if (this.posts[i].id == postId) {
-          this.posts[i].likedByCurrentUser = true;
           this.posts[i].likeCount++;
+
+          if (likedByCurrentUser) {
+            this.posts[i].likedByCurrentUser = true;
+          }
+
           break;
         }
       }

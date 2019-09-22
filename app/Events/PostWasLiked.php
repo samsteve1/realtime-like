@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostWasCreated implements ShouldBroadcast
+class PostWasLiked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $post;
@@ -33,8 +33,9 @@ class PostWasCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('posts');
+        return new PrivateChannel('likes');
     }
+
     public function broadcastWith()
     {
         return [

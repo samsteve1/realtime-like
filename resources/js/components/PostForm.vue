@@ -23,6 +23,9 @@ export default {
             axios.post('/posts', {body:this.post}).then((response) => {
                 this.post = ''
                 eventBus.$emit('post-submitted', response.data)
+            }).catch((error) => {
+                console.log(error)
+                alert('unable to complete request, retry')
             })
         }
     },

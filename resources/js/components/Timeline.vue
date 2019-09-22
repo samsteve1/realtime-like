@@ -29,7 +29,6 @@ import eventBus from '../event';
         },
 
         mounted() {
-            alert(window.user_id)
 
             eventBus.$on('post-submitted', this.addPost);
             eventBus.$on('post-liked', this.postLiked);
@@ -39,6 +38,12 @@ import eventBus from '../event';
                 Echo.private('posts').listen('PostWasCreated', (e) => {
                     eventBus.$emit('post-submitted', e.post)
                 })
+
+                Echo.private('likes').listen('PostWasLiked', (e) => {
+                   eventBus.$emit('post-liked', this.post.id, false);
+                })
+
+
                 this.posts = response.data
             })
 
@@ -52,13 +57,15 @@ import eventBus from '../event';
             addPost(post) {
                 this.posts.unshift(post)
             },
-            postLiked(postId) {
+            postLiked(postId, likedByCurrentUser) {
 
                 for (var i =0; i < this.posts.length; i++) {
                     if (this.posts[i].id == postId) {
-                        this.posts[i].likedByCurrentUser = true;
                         this.posts[i].likeCount++;
 
+                        if(likedByCurrentUser) {
+                            this.posts[i].likedByCurrentUser = true
+                        }
                         break;
                     }
                 }
