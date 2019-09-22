@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         submit() {
-            axios.post('/post', {body:this.post}).then((response) => {
+            axios.post('/posts', {body:this.post}).then((response) => {
                 this.post = ''
                 eventBus.$emit('post-submitted', response.data)
             })

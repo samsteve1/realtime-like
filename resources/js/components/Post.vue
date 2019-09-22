@@ -10,6 +10,9 @@
         <div class="media-body">
             <strong>{{ post.user.name }}</strong>
             <p>{{ post.body }}</p>
+            <p>{{ post.likeCount }} {{ post.likeCount >1 || post.likeCount == 0 ? ' likes' : ' like' }}</p>
+
+            <like-button v-if="!post.likedByCurrentUser && post.canBeLikedByCurrentUser" :post="post"></like-button>
         </div>
 
 
@@ -17,8 +20,19 @@
 </template>
 
 <script>
+import LikeButton from './LikeButton.vue'
+import pluralize from 'pluralize'
+
     export default {
-        props: ['post']
+        props: ['post'],
+        components () {
+            LikeButton
+        },
+        methods: {
+            pluralize() {
+                pluralize
+            }
+        },
     }
 </script>
 
@@ -31,6 +45,9 @@
     }
     .media-left{
         margin-right: 2px;
+    }
+    .media:hover .like{
+        display: block;
     }
 
 </style>

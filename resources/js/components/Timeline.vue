@@ -34,6 +34,7 @@ import eventBus from '../event';
             })
 
             eventBus.$on('post-submitted', this.addPost);
+            eventBus.$on('post-liked', this.postLiked);
 
         },
 
@@ -44,6 +45,17 @@ import eventBus from '../event';
         methods: {
             addPost(post) {
                 this.posts.unshift(post)
+            },
+            postLiked(postId) {
+
+                for (var i =0; i < this.posts.length; i++) {
+                    if (this.posts[i].id == postId) {
+                        this.posts[i].likedByCurrentUser = true;
+                        this.posts[i].likeCount++;
+
+                        break;
+                    }
+                }
             }
         },
     }

@@ -23,10 +23,12 @@ window.Vue = require('vue');
 import Timeline from './components/Timeline.vue';
 import Post from './components/Post.vue';
 import PostForm from './components/PostForm.vue';
+import LikeButton from './components/LikeButton.vue';
 
 Vue.component('post', Post);
 Vue.component('timeline', Timeline);
 Vue.component('post-form', PostForm);
+Vue.component('like-button', LikeButton);
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
