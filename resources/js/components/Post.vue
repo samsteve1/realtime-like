@@ -12,7 +12,7 @@
             <p>{{ post.body }}</p>
             <p>{{ post.likeCount }} {{ post.likeCount >1 || post.likeCount == 0 ? ' likes' : ' like' }}</p>
 
-            <like-button v-if="!post.likedByCurrentUser && post.canBeLikedByCurrentUser" :post="post"></like-button>
+            <like-button v-if="!post.likedByCurrentUser && post.user.id != $root.user_id" :post="post"></like-button>
         </div>
 
 

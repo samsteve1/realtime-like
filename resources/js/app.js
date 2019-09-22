@@ -38,5 +38,10 @@ Vue.component('like-button', LikeButton);
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data() {
+        return {
+            user_id: window.user_id
+        }
+    },
 });

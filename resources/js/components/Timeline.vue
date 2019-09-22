@@ -29,12 +29,18 @@ import eventBus from '../event';
         },
 
         mounted() {
-            let posts = axios.get('/posts').then((response) => {
-                this.posts = response.data
-            })
+            alert(window.user_id)
 
             eventBus.$on('post-submitted', this.addPost);
             eventBus.$on('post-liked', this.postLiked);
+
+            axios.get('/posts').then((response) => {
+
+                Echo.private('posts').listen('PostWasCreated', (e) => {
+                    eventBus.$emit('post-submitted', e.post)
+                })
+                this.posts = response.data
+            })
 
         },
 
